@@ -41,6 +41,7 @@ void 	draw_solido_colores();
 void 	draw(_modo modo, float r, float g, float b, float grosor);
 
 vector<_vertex3i> caras;
+vector<_vertex3f> colores_caras;
 };
 
 
