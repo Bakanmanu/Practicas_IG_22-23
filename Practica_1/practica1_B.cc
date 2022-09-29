@@ -100,8 +100,14 @@ glEnd();
 
 void draw_objects()
 {
-     
- piramide.draw_puntos(1.0,0.5,0.0,5);
+    
+ // piramide.draw_puntos(1.0,0.5,0.0,5);
+
+// piramide.draw_aristas(1.0, 0.5, 0.0, 0.5);
+
+ cubo.draw_puntos(0.0, 0.0, 0.0, 7.0);
+ cubo.draw_aristas(1.0, 0.0, 0.0, 4.0);
+ cubo.draw_solido_colores();
 }
 
 
