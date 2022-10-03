@@ -261,48 +261,47 @@ _rotacion::_rotacion(){
 }
 
 
-void _rotacion::parametros(vector<_vertex3f> perfil, int num)
-{
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux;
+void _rotacion::parametros(vector<_vertex3f> perfil, int num){
+	int i,j;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux;
 
-// tratamiento de los vértice
+	// tratamiento de los vértice
+	num_aux=perfil.size();
+	vertices.resize(num_aux*num);
+	for (j=0;j<num;j++){
+		for (i=0;i<num_aux;i++){
+			vertice_aux.x=	perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+			vertice_aux.z=	-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
+							perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+			vertice_aux.y=	perfil[i].y;
+			vertices[i+j*num_aux]=vertice_aux;
+		}
+	}
 
-num_aux=perfil.size();
-vertices.resize(num_aux*num);
-for (j=0;j<num;j++){
-	for (i=0;i<num_aux;i++){
-      	vertice_aux.x=	perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                	  	perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      	vertice_aux.z=	-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    	perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      	vertice_aux.y=	perfil[i].y;
-      	vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	// tratamiento de las caras 
+	caras.resize(2*(num_aux-1)*num);
+	int c=0;
+	for(j=0; j<num; j++){
+		for(i=0; i<num_aux-1; i++){
+			caras[c]._0=j*num_aux+i;
+			caras[c]._1=j*num_aux+i+1;
+			caras[c]._2=((j+1)%num)*num_aux+i+1;
+			c+=1;
+			caras[c]._0=((j+1)%num)*num_aux+i+1;
+			caras[c]._1=((j+1)%num)*num_aux+i;
+			caras[c]._2=j*num_aux+i;
+			c+=1;
+		
+		
+		}	
+	}
+	// tapa inferior
 
-// tratamiento de las caras 
-caras.resize(2*(num_aux-1)*num);
-int c=0;
-for(j=0; j<num; j++){
-  for(i=0; i<num_aux-1; i++){
-    caras[c]._0=j*num_aux+i;
-    caras[c]._1=j*num_aux+i+1;
-    caras[c]._2=((j+1)%num)*num_aux+i+1;
-    c+=1;
-    caras[c]._0=((j+1)%num)*num_aux+i+1;
-    caras[c]._1=((j+1)%num)*num_aux+i;
-    caras[c]._2=j*num_aux+i;
-    c+=1;
-  }
-    
-}
-// tapa inferior
-
- 
-// tapa superior
+	
+	// tapa superior
  
 }
 
