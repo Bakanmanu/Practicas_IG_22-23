@@ -261,15 +261,27 @@ _rotacion::_rotacion(){
 }
 
 
-void _rotacion::parametros(vector<_vertex3f> perfil, int num){
+void _rotacion::parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa_inf, int tapa_sup){
 	int i,j;
 	_vertex3f vertice_aux;
 	_vertex3i cara_aux;
 	int num_aux;
 
-	// tratamiento de los vértice
+	// tratamiento de los vértices
 	num_aux=perfil.size();
-	vertices.resize(num_aux*num);
+
+	if(tapa_inf==0 && tapa_sup==0){
+		vertices.resize(num_aux*num);
+	}else if(tapa_inf==1 && tapa_sup==1){
+		vertices.resize(num_aux*num+2);
+	}else{
+		vertices.resize(num_aux*num+1);
+	}
+
+	if(tipo == 1){
+		num_aux--;
+	}
+
 	for (j=0;j<num;j++){
 		for (i=0;i<num_aux;i++){
 			vertice_aux.x=	perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
@@ -281,28 +293,62 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num){
 		}
 	}
 
+	int num_car = 2*num*(num_aux-1)+2*num;
+
 	// tratamiento de las caras 
-	caras.resize(2*(num_aux-1)*num);
+	caras.resize(num_car);
 	int c=0;
 	for(j=0; j<num; j++){
 		for(i=0; i<num_aux-1; i++){
-			caras[c]._0=j*num_aux+i;
-			caras[c]._1=j*num_aux+i+1;
-			caras[c]._2=((j+1)%num)*num_aux+i+1;
-			c+=1;
-			caras[c]._0=((j+1)%num)*num_aux+i+1;
-			caras[c]._1=((j+1)%num)*num_aux+i;
+			caras[c]._0=j*num_aux+i+1;
+			caras[c]._1=((j+1)%num)*num_aux+i+1;
 			caras[c]._2=j*num_aux+i;
 			c+=1;
-		
-		
+
+			caras[c]._0=((j+1)%num)*num_aux+i;
+			caras[c]._1=j*num_aux+i;
+			caras[c]._2=((j+1)%num)*num_aux+i+1;
+			c+=1;
+			
 		}	
 	}
 	// tapa inferior
+	int total=num_aux*num;
 
+	vertices[total].x=0.0;
+	vertices[total].y=perfil[0].y;
+	vertices[total].z=0.0;
+
+	for(j=0; j< num; j++){
+		caras[c]._0=j*num_aux;
+		caras[c]._1=((j+1)%num)*num_aux;
+		caras[c]._2=total;
+		c+=1;
+	}
 	
 	// tapa superior
- 
+
+	vertices[total+1].x=0.0;
+	if(tipo == 0)	vertices[total+1].y=perfil[num_aux-1].y;
+	if(tipo == 1)	vertices[total+1].y=perfil[1].y;
+	vertices[total+1].z=0.0;
+
+	for (j=0; j<num; j++){
+		caras[c]._0=((j+1)%num)*num_aux;
+		caras[c]._1=total+1;
+		caras[c]._2=((j+1)%num)*num_aux+1;
+		c+=1;
+	}
+
+
+	//	Colores
+	colores_caras.resize(num_car);
+	for(i=0; i<colores_caras.size(); i++){
+	colores_caras[i].r=rand()%1000/1000.0;
+	colores_caras[i].g=rand()%1000/1000.0;
+	colores_caras[i].b=rand()%1000/1000.0; 
+	}
+
 }
 
 
@@ -346,8 +392,98 @@ _extrusion::_extrusion(vector<_vertex3f> poligono, float x, float y, float z){
     c=c+1;    
     }   
 
-
+colores_caras.resize(2*num_aux);
+for(i=0; i<colores_caras.size(); i++){
+  colores_caras[i].r=rand()%1000/1000.0;
+  colores_caras[i].g=rand()%1000/1000.0;
+  colores_caras[i].b=rand()%1000/1000.0; 
+}
     
 }
 
+// Objeto Cilindro (Caso especial de rotacion)
+
+_cilindro::_cilindro(float radio, float altura, int num){
+	vector<_vertex3f> perfil;
+	_vertex3f aux;
+
+	aux.x=radio; aux.y=-altura/2; aux.z=0.0;
+	perfil.push_back(aux);
+	aux.x=radio; aux.y=altura/2; aux.z=0.0;
+	perfil.push_back(aux);
+
+	parametros(perfil,num,0,1,1);
+}
+
+
+// Objeto Cono (Caso especial de rotacion)
+
+_cono::_cono(float radio, float altura, int num){
+	vector<_vertex3f> perfil;
+	_vertex3f aux;
+
+	aux.x=radio; aux.y=0; aux.z=0.0;
+	perfil.push_back(aux);
+	aux.x=radio; aux.y=altura; aux.z=0.0;
+	perfil.push_back(aux);
+
+	parametros(perfil,num,1,1,1);
+}
+
+
+// Objeto esfera (Caso especial de rotacion)
+
+_esfera::_esfera(float radio, int num_mer, int num_par){
+	vector<_vertex3f> perfil;
+	_vertex3f aux;
+	for(int i=1; i<num_mer; i++){
+		aux.x=radio*cos(M_PI*2*i/(num_mer*1.0)-M_PI/2.0);
+		aux.y=radio*sin(M_PI*2*i/(num_mer*1.0)-M_PI/2.0);
+		aux.z=0.0;
+		perfil.push_back(aux);
+	}
+
+	parametros(perfil,num_par,2,1,1);
+
+}
+
+
+// Objeto rotacion PLY
+
+_rotacion_PLY::_rotacion_PLY(){
+
+}
+
+// Num indica el numero de lados
+void _rotacion_PLY::parametros_PLY(char *archivo, int num){	
+int n_ver,n_car;
+int i;
+
+vector<float> ver_ply ;
+vector<int> car_ply ;
+ 
+_file_ply::read(archivo, ver_ply, car_ply);
+
+n_ver=ver_ply.size()/3;
+
+printf("Number of vertices=%d\nNumber of faces=%d\n", n_ver, n_car);
+
+vertices.resize(n_ver);
+
+// vertices
+for(i=0; i<vertices.size(); i++){
+  vertices[i].x=ver_ply[3*i];
+  vertices[i].y=ver_ply[3*i+1];
+  vertices[i].z=ver_ply[3*i+2];
+}
+
+
+// Colores
+colores_caras.resize(n_car);
+for(i=0; i<colores_caras.size(); i++){
+  colores_caras[i].r=rand()%1000/1000.0;
+  colores_caras[i].g=rand()%1000/1000.0;
+  colores_caras[i].b=rand()%1000/1000.0; 
+}
+}
 

@@ -84,12 +84,16 @@ void  parametros(char *archivo);
 // objeto por revolución
 //************************************************************************
 
+// Tipo indica si es una figura por revolucion normal o bien un cono o una esfera
+// tipo = 0 -> normal, tipo = 1 -> Cono, tipo = 2 -> esfera
+// tapa_inf = 0 -> Sin tapa inferior, tapa_inf = 1 -> con tapa inferior
+// tapa_sup = 0 -> sin tapa superior, tapa_sup = 1 -> con tapa superior
 class _rotacion: public _triangulos3D
 {
 public:
        _rotacion();
        
-void  parametros(vector<_vertex3f> perfil, int num);
+void  parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa_inf, int tapa_sup);
 };
 
 
@@ -103,3 +107,33 @@ public:
        _extrusion(vector<_vertex3f> poligono, float x, float y, float z);
 };
 
+
+//************************************************************************
+//  Práctica 2
+//************************************************************************
+
+// Clase Cono
+class _cono: public _rotacion{
+	public:
+	_cono(float radio, float altura, int num);
+};
+
+// Clase Cilindro
+class _cilindro: public _rotacion{
+	public:
+	_cilindro(float radio, float altura, int num);
+};
+
+// Clase esfera
+class _esfera: public _rotacion{
+	public:
+	_esfera(float radio, int num_mer, int num_par);
+};
+
+// Clase rotacion Ply
+
+class _rotacion_PLY: public _rotacion{
+	public:
+	_rotacion_PLY();
+	void parametros_PLY(char *archivo, int num);
+};

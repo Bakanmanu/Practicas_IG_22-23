@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, EXTRUSION} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, EXTRUSION, CILINDRO, CONO, ESFERA} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 
@@ -34,6 +34,10 @@ _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
 _rotacion rotacion; 
 _extrusion *extrusion;
+
+_cilindro cilindro(1.0,2.0,10);
+_cono cono(1.0,2.0,8);
+_esfera esfera(1.0,16,16);
 
 // _objeto_ply *ply;
 
@@ -115,9 +119,12 @@ void draw_objects()
 switch (t_objeto){
 	case CUBO: cubo.draw(modo,1.0,0.0,0.0,5);break;
 	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,5);break;
-        case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,5);break;
-        case ROTACION: rotacion.draw(modo,1.0,0.0,0.0,5);break;
-        case EXTRUSION: extrusion->draw(modo,1.0,0.0,0.0,5);break;
+	case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,5);break;
+	case ROTACION: rotacion.draw(modo,1.0,0.0,0.0,5);break;
+	case EXTRUSION: extrusion->draw(modo,1.0,0.0,0.0,5);break;
+	case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,5);break;
+	case CONO: cono.draw(modo,1.0,0.0,0.0,5);break;
+	case ESFERA: esfera.draw(modo,1.0,0.0,0.0,5);break;
 	}
 
 }
@@ -180,6 +187,9 @@ switch (toupper(Tecla1)){
         case 'O':t_objeto=OBJETO_PLY;break;	
         case 'R':t_objeto=ROTACION;break;
         case 'X':t_objeto=EXTRUSION;break;
+		case 'L':t_objeto=CILINDRO;break;
+		case 'K':t_objeto=CONO;break;
+		case 'S':t_objeto=ESFERA;break;
 	}
 glutPostRedisplay();
 }
@@ -259,7 +269,7 @@ perfil.push_back(aux);
 aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil.push_back(aux);
 
-rotacion.parametros(perfil,6);
+rotacion.parametros(perfil,16,0,1,1);
 
 aux.x=1.0; aux.y=0.0; aux.z=1.0;
 poligono.push_back(aux);
