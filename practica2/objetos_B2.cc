@@ -436,9 +436,9 @@ _cono::_cono(float radio, float altura, int num){
 _esfera::_esfera(float radio, int num_mer, int num_par){
 	vector<_vertex3f> perfil;
 	_vertex3f aux;
-	for(int i=1; i<num_mer; i++){
-		aux.x=radio*cos(M_PI*2*i/(num_mer*1.0)-M_PI/2.0);
-		aux.y=radio*sin(M_PI*2*i/(num_mer*1.0)-M_PI/2.0);
+	for(int i=1; i<num_mer-1; i++){
+		aux.x=radio*cos(M_PI*i/(num_mer*1.0)-M_PI/2.0);
+		aux.y=radio*sin(M_PI*i/(num_mer*1.0)-M_PI/2.0);
 		aux.z=0.0;
 		perfil.push_back(aux);
 	}
