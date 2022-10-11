@@ -320,27 +320,33 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa
 	vertices[total].z=0.0;
 
 	for(j=0; j< num; j++){
-		caras[c]._0=j*num_aux;
-		caras[c]._1=((j+1)%num)*num_aux;
+		caras[c]._0=((j+1)%num)*num_aux;
+		caras[c]._1=j*num_aux;
 		caras[c]._2=total;
 		c+=1;
 	}
 	
 	// tapa superior
-	/* 
+	
 	vertices[total+1].x=0.0;
 	if(tipo != 1)	vertices[total+1].y=perfil[num_aux-1].y;
 	if(tipo == 1)	vertices[total+1].y=perfil[1].y;
 	vertices[total+1].z=0.0;
 
+	/* 
 	for (j=0; j<num; j++){
 		caras[c]._0=((j+1)%num)*num_aux;
 		caras[c]._1=((j+1)%num)*num_aux+1;
 		caras[c]._2=total+1;
 		c+=1;
 	} 
-	*/
-
+	 */
+	for(j=num_aux; j<=num_aux*num; j+=num_aux){
+		caras[c]._0=j-1;
+		caras[c]._1=(j+num_aux-1)%(total); // (i+perfil.size())%(vertices.size()-1)
+		caras[c]._2=total+1;
+		c++;
+	}
 
 	//	Colores
 	colores_caras.resize(num_car);
@@ -437,7 +443,7 @@ _cono::_cono(float radio, float altura, int num){
 _esfera::_esfera(float radio, int num_mer, int num_par){
 	vector<_vertex3f> perfil;
 	_vertex3f aux;
-	for(int i=1; i<num_mer-1; i++){
+	for(int i=1; i<num_mer; i++){
 		aux.x=radio*cos(M_PI*i/(num_mer*1.0)-M_PI/2.0);
 		aux.y=radio*sin(M_PI*i/(num_mer*1.0)-M_PI/2.0);
 		aux.z=0.0;

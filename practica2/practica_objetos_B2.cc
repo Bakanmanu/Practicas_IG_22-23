@@ -36,7 +36,7 @@ _rotacion rotacion;
 _extrusion *extrusion;
 
 _cilindro cilindro(1.0,2.0,10);
-_cono cono(1.0,2.0,8);
+_cono cono(1.0,2.0,10);
 _esfera esfera(1.0,16,16);
 
 // _objeto_ply *ply;
