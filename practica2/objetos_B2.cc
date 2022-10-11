@@ -360,53 +360,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa
 
 
 
-//************************************************************************
-// objeto por extrusión
-//************************************************************************
 
-
-_extrusion::_extrusion(vector<_vertex3f> poligono, float x, float y, float z){
-  int i;
-  _vertex3f vertice_aux;
-  _vertex3i cara_aux;
-  int num_aux;
-
-  // tratamiento de los vértice
-
-  num_aux=poligono.size();
-  vertices.resize(num_aux*2);
-  for (i=0;i<num_aux;i++)
-      {
-        vertices[2*i]=poligono[i];
-        vertices[2*i+1].x=poligono[i].x+x;
-        vertices[2*i+1].y=poligono[i].y+y;
-        vertices[2*i+1].z=poligono[i].z+z;
-      }
-      
-  // tratamiento de las caras 
-
-  caras.resize(num_aux*2);
-  int c=0;
-  for (i=0;i<num_aux;i++)         
-    {
-    caras[c]._0=i*2;
-    caras[c]._1=(i*2+2)%(num_aux*2);
-    caras[c]._2=i*2+1;    
-    c=c+1;
-    caras[c]._0=(i*2+2)%(num_aux*2);
-    caras[c]._1=(i*2+2)%(num_aux*2)+1;
-    caras[c]._2=i*2+1;    
-    c=c+1;    
-    }   
-
-colores_caras.resize(2*num_aux);
-for(i=0; i<colores_caras.size(); i++){
-  colores_caras[i].r=rand()%1000/1000.0;
-  colores_caras[i].g=rand()%1000/1000.0;
-  colores_caras[i].b=rand()%1000/1000.0; 
-}
-    
-}
 
 // Objeto Cilindro (Caso especial de rotacion)
 
@@ -493,4 +447,48 @@ for(i=0; i<colores_caras.size(); i++){
   colores_caras[i].b=rand()%1000/1000.0; 
 }
 }
+//************************************************************************
+// objeto por extrusión
+//************************************************************************
 
+_extrusion::_extrusion(vector<_vertex3f> poligono, float x, float y, float z){
+	int i;
+	_vertex3f vertice_aux;
+	_vertex3i cara_aux;
+	int num_aux;
+
+  // tratamiento de los vértice
+
+	num_aux=poligono.size();
+	vertices.resize(num_aux*2);
+	for (i=0;i<num_aux;i++){
+		vertices[2*i]=poligono[i];
+		vertices[2*i+1].x=poligono[i].x+x;
+		vertices[2*i+1].y=poligono[i].y+y;
+		vertices[2*i+1].z=poligono[i].z+z;
+	}
+		
+	// tratamiento de las caras 
+
+	caras.resize(num_aux*2);
+	int c=0;
+	for (i=0;i<num_aux;i++){
+		caras[c]._0=i*2;
+		caras[c]._1=(i*2+2)%(num_aux*2);
+		caras[c]._2=i*2+1;    
+		c=c+1;
+
+		caras[c]._0=(i*2+2)%(num_aux*2);
+		caras[c]._1=(i*2+2)%(num_aux*2)+1;
+		caras[c]._2=i*2+1;    
+		c=c+1;    
+	}   
+
+	colores_caras.resize(2*num_aux);
+	for(i=0; i<colores_caras.size(); i++){
+	colores_caras[i].r=rand()%1000/1000.0;
+	colores_caras[i].g=rand()%1000/1000.0;
+	colores_caras[i].b=rand()%1000/1000.0; 
+	}
+    
+}
