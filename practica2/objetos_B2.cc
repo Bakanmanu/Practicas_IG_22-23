@@ -300,14 +300,14 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa
 	int c=0;
 	for(j=0; j<num; j++){
 		for(i=0; i<num_aux-1; i++){
-			caras[c]._0=j*num_aux+i+1;
+			caras[c]._0=j*num_aux+i;
 			caras[c]._1=((j+1)%num)*num_aux+i+1;
-			caras[c]._2=j*num_aux+i;
+			caras[c]._2=j*num_aux+i+1;
 			c+=1;
 
-			caras[c]._0=((j+1)%num)*num_aux+i;
+			caras[c]._0=((j+1)%num)*num_aux+i+1;
 			caras[c]._1=j*num_aux+i;
-			caras[c]._2=((j+1)%num)*num_aux+i+1;
+			caras[c]._2=((j+1)%num)*num_aux+i;
 			c+=1;
 			
 		}	
@@ -327,18 +327,19 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, int tipo, int tapa
 	}
 	
 	// tapa superior
-
+	/* 
 	vertices[total+1].x=0.0;
-	if(tipo == 0)	vertices[total+1].y=perfil[num_aux-1].y;
+	if(tipo != 1)	vertices[total+1].y=perfil[num_aux-1].y;
 	if(tipo == 1)	vertices[total+1].y=perfil[1].y;
 	vertices[total+1].z=0.0;
 
 	for (j=0; j<num; j++){
 		caras[c]._0=((j+1)%num)*num_aux;
-		caras[c]._1=total+1;
-		caras[c]._2=((j+1)%num)*num_aux+1;
+		caras[c]._1=((j+1)%num)*num_aux+1;
+		caras[c]._2=total+1;
 		c+=1;
-	}
+	} 
+	*/
 
 
 	//	Colores
