@@ -1,0 +1,39 @@
+escorpion:
+	-cabeza
+	-cuerpo
+	-pinzas
+	-brazo
+	-patas
+	-cola
+	-aguijon
+	
+	
+orden de acciones:
+	1º escalado
+	2º traslacion
+	
+	
+	
+	
+Cuerpo:
+	1 cubo alargado con 1 cilindro a cada lado (1 cubo, 2 cilindros)
+	
+Cabeza:
+	Elipse 3d esfera alargada
+
+Aguijon:
+	esfera y un cono
+
+Cola:
+	Cilindro curvo o varios cilindros juntos
+	
+pinzas:
+	Elipse 3d y cono
+
+Patas: 
+	2/3 cilindros y un cubo alargado como base
+	
+brazo:
+	2/3 cilindros 
+	
+	
