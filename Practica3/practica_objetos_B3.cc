@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, EXCAVADORA} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSE} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 
@@ -36,8 +36,9 @@ _rotacion rotacion;
 _cilindro cilindro(1,2,6); 
 _cono cono(1,2,6);
 _esfera esfera(1,6,6);
-_excavadora excavadora;
+// _excavadora excavadora;
 _extrusion *extrusion;
+_cilindroElipse cilindroElipse(1.5, 2.0, 10.0, 20);
 
 // _objeto_ply *ply;
 
@@ -124,8 +125,9 @@ switch (t_objeto){
         case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,5);break;
         case CONO: cono.draw(modo,1.0,0.0,0.0,5);break;
         case ESFERA: esfera.draw(modo,1.0,0.0,0.0,5);break;
-        case EXCAVADORA: excavadora.draw(modo,1.0,0.0,0.0,5);break;
+        // case EXCAVADORA: excavadora.draw(modo,1.0,0.0,0.0,5);break;
         case EXTRUSION: extrusion->draw(modo,1.0,0.0,0.0,5);break;
+        case ELIPSE: cilindroElipse.draw(modo,1.0,0.0,0.0,5);break;
 	}
 
 }
@@ -190,8 +192,9 @@ switch (toupper(Tecla1)){
         case 'L':t_objeto=CILINDRO;break;
         case 'N':t_objeto=CONO;break;
         case 'E':t_objeto=ESFERA;break;
-        case 'A':t_objeto=EXCAVADORA;break;
+        // case 'A':t_objeto=EXCAVADORA;break;
         case 'X':t_objeto=EXTRUSION;break;
+        case 'T':t_objeto=ELIPSE;break;
 	}
 glutPostRedisplay();
 }
@@ -217,26 +220,26 @@ switch (Tecla1){
    case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
    case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
 	
-   case GLUT_KEY_F1:excavadora.giro_cabina+=5;break;
-   case GLUT_KEY_F2:excavadora.giro_cabina-=5;break;
-   case GLUT_KEY_F3:excavadora.giro_primer_brazo+=1;
-        if (excavadora.giro_primer_brazo > excavadora.giro_primer_brazo_max)
-            excavadora.giro_primer_brazo = excavadora.giro_primer_brazo_max;break;
-   case GLUT_KEY_F4:excavadora.giro_primer_brazo-=1;
-        if (excavadora.giro_primer_brazo < excavadora.giro_primer_brazo_min)
-            excavadora.giro_primer_brazo = excavadora.giro_primer_brazo_min;break;
-   case GLUT_KEY_F5:excavadora.giro_segundo_brazo+=1;
-        if (excavadora.giro_segundo_brazo > excavadora.giro_segundo_brazo_max)
-            excavadora.giro_segundo_brazo = excavadora.giro_segundo_brazo_max;break;
-   case GLUT_KEY_F6:excavadora.giro_segundo_brazo-=1;
-        if (excavadora.giro_segundo_brazo < excavadora.giro_segundo_brazo_min) 
-            excavadora.giro_segundo_brazo = excavadora.giro_segundo_brazo_min;break;
-   case GLUT_KEY_F7:excavadora.giro_pala+=1;
-        if (excavadora.giro_pala > excavadora.giro_pala_max)
-            excavadora.giro_pala = excavadora.giro_pala_max;break;
-   case GLUT_KEY_F8:excavadora.giro_pala-=1;
-        if (excavadora.giro_pala < excavadora.giro_pala_min)
-            excavadora.giro_pala = excavadora.giro_pala_min;break;
+//    case GLUT_KEY_F1:excavadora.giro_cabina+=5;break;
+//    case GLUT_KEY_F2:excavadora.giro_cabina-=5;break;
+//    case GLUT_KEY_F3:excavadora.giro_primer_brazo+=1;
+//         if (excavadora.giro_primer_brazo > excavadora.giro_primer_brazo_max)
+//             excavadora.giro_primer_brazo = excavadora.giro_primer_brazo_max;break;
+//    case GLUT_KEY_F4:excavadora.giro_primer_brazo-=1;
+//         if (excavadora.giro_primer_brazo < excavadora.giro_primer_brazo_min)
+//             excavadora.giro_primer_brazo = excavadora.giro_primer_brazo_min;break;
+//    case GLUT_KEY_F5:excavadora.giro_segundo_brazo+=1;
+//         if (excavadora.giro_segundo_brazo > excavadora.giro_segundo_brazo_max)
+//             excavadora.giro_segundo_brazo = excavadora.giro_segundo_brazo_max;break;
+//    case GLUT_KEY_F6:excavadora.giro_segundo_brazo-=1;
+//         if (excavadora.giro_segundo_brazo < excavadora.giro_segundo_brazo_min) 
+//             excavadora.giro_segundo_brazo = excavadora.giro_segundo_brazo_min;break;
+//    case GLUT_KEY_F7:excavadora.giro_pala+=1;
+//         if (excavadora.giro_pala > excavadora.giro_pala_max)
+//             excavadora.giro_pala = excavadora.giro_pala_max;break;
+//    case GLUT_KEY_F8:excavadora.giro_pala-=1;
+//         if (excavadora.giro_pala < excavadora.giro_pala_min)
+//             excavadora.giro_pala = excavadora.giro_pala_min;break;
 	}
 glutPostRedisplay();
 }

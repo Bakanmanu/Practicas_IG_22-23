@@ -457,7 +457,35 @@ _rotacion_PLY::_rotacion_PLY()
 
 void _rotacion_PLY::parametros_PLY(char *archivo, int num)
 {
+  int n_ver,n_car;
+  int i;
 
+  vector<float> ver_ply ;
+  vector<int> car_ply ;
+  
+  _file_ply::read(archivo, ver_ply, car_ply);
+
+  n_ver=ver_ply.size()/3;
+
+  printf("Number of vertices=%d\nNumber of faces=%d\n", n_ver, n_car);
+
+  vertices.resize(n_ver);
+
+  // vertices
+  for(i=0; i<vertices.size(); i++){
+    vertices[i].x=ver_ply[3*i];
+    vertices[i].y=ver_ply[3*i+1];
+    vertices[i].z=ver_ply[3*i+2];
+  }
+
+
+  // Colores
+  colores_caras.resize(n_car);
+  for(i=0; i<colores_caras.size(); i++){
+    colores_caras[i].r=rand()%1000/1000.0;
+    colores_caras[i].g=rand()%1000/1000.0;
+    colores_caras[i].b=rand()%1000/1000.0; 
+}
 }
 
 
@@ -517,199 +545,79 @@ colors_random();
 //************************************************************************
 
 //************************************************************************
-// pala
+// Cilindro Elipse
 //************************************************************************
 
-_pala::_pala(float radio, float ancho, int num)
-{
-vector<_vertex3f> perfil;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int i, j;
+_cilindroElipse::_cilindroElipse(float ejeP, float ejeG, float altura, int num){
+  vector<_vertex3f> perfil;
+  _vertex3f vertice_aux;
+  _vertex3i cara_aux;
+  int i, j;
+  int num_aux;
 
-vertice_aux.x=radio; vertice_aux.y=0; vertice_aux.z=-ancho/2.0;
-perfil.push_back(vertice_aux);
-vertice_aux.z=ancho/2.0;
-perfil.push_back(vertice_aux);
+  vertice_aux.x=ejeG; vertice_aux.y=-altura/2.0; vertice_aux.z=0.0;
+  perfil.push_back(vertice_aux);
+  vertice_aux.y=altura/2.0;
+  perfil.push_back(vertice_aux);
 
-// tratamiento de los vértices
-
-for (j=0;j<=num;j++)
-  {for (i=0;i<2;i++)	
-     {
-      vertice_aux.x=perfil[i].x*cos(M_PI*j/(1.0*num))-
-                    perfil[i].y*sin(M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].x*sin(M_PI*j/(1.0*num))+
-                    perfil[i].y*cos(M_PI*j/(1.0*num));
-      vertice_aux.z=perfil[i].z;
-      vertices.push_back(vertice_aux);
-     }
+// Tratamiento de los vertices
+// Disposicion de Elipse en los vertices
+  num_aux=perfil.size();
+  vertices.resize(num_aux*num+2);
+  for(i=0; i<num; i++){
+    for(j=0; j<num_aux;j++){
+      vertice_aux.x=perfil[j].x*ejeG*cos(2.0*M_PI*i/(1.0*num))+
+                    perfil[j].z*ejeP*sin(2.0*M_PI*i/(1.0*num));
+      vertice_aux.z=-perfil[j].x*ejeP*sin(2.0*M_PI*i/(1.0*num))+
+                    perfil[j].z*ejeG*cos(2.0*M_PI*i/(1.0*num));
+      vertice_aux.y=perfil[j].y;
+      
+      vertices[j+i*num_aux]=vertice_aux;
+    }
   }
-  
-// tratamiento de las caras 
 
-for (j=0;j<num;j++)
-   {cara_aux._0=j*2;
-    cara_aux._1=(j+1)*2;
-    cara_aux._2=(j+1)*2+1;
-    caras.push_back(cara_aux);
-    
-    cara_aux._0=j*2;
-    cara_aux._1=(j+1)*2+1;
-    cara_aux._2=j*2+1;
-    caras.push_back(cara_aux);
-   }
-   
+// Tratamiento de las caras
+
+  caras.resize(2*(num_aux-1)*num+2*num);
+  int c=0;
+  for(j=0; j<num; j++){
+    for(i=0; i<num_aux-1; i++){
+      caras[c]._0=i+j*num_aux;
+      caras[c]._1=((j+1)%num)*num_aux+i;
+      caras[c]._2=1+i+j*num_aux;
+      c+=1;
+      caras[c]._0=((j+1)%num)*num_aux+i;
+      caras[c]._1=((j+1)%num)*num_aux+1+i;
+      caras[c]._2=1+i+j*num_aux;
+      c+=1;
+    }
+  }
+
 // tapa inferior
-vertice_aux.x=0;
-vertice_aux.y=0;
-vertice_aux.z=-ancho/2.0;
-vertices.push_back(vertice_aux); 
+int total=num_aux*num;
+vertices[total].x=0.0;
+vertices[total].y=perfil[0].y;
+vertices[total].z=0.0;
 
-for (j=0;j<num;j++)
-   {cara_aux._0=j*2;
-    cara_aux._1=(j+1)*2;
-    cara_aux._2=vertices.size()-1;
-    caras.push_back(cara_aux);
-   }
-  
-// tapa superior
-vertice_aux.x=0;
-vertice_aux.y=0;
-vertice_aux.z=ancho/2.0;
-vertices.push_back(vertice_aux); 
-
-for (j=0;j<num;j++)
-   {cara_aux._0=j*2+1;
-    cara_aux._1=(j+1)*2+1;
-    cara_aux._2=vertices.size()-1;
-    caras.push_back(cara_aux);
-   }
-  
-colors_chess(1.0,1.0,0.0,0.0,0.0,1.0);
+for(i=0; i<num; i++){
+  caras[c]._0=i*num_aux;
+  caras[c]._1=((i+1)%num)*num_aux;
+  caras[c]._2=total;
+  c++;
 }
 
-//************************************************************************
-// brazo
-//************************************************************************
+// tapa superior
+vertices[total+1].x=0.0;
+vertices[total+1].y=perfil[num_aux-1].y;
+vertices[total+1].z=0.0;
 
-_brazo::_brazo()
-{
-ancho=0.6;
-alto=0.1;
-fondo=0.1;
-colors_chess(1.0,1.0,0.0,0.0,0.0,1.0);
-};
+for(i=0; i<num; i++){
+  caras[c]._0=total+1;
+  caras[c]._1=((i+1)%num)*num_aux+num_aux-1;
+  caras[c]._2=num_aux-1+i*num_aux;
+  c++;
+}
 
-void _brazo::draw(_modo modo, float r, float g, float b, float grosor)
-{
-glPushMatrix();
-glScalef(ancho, alto, fondo);
-glTranslatef(0.5,0,0);
-cubo.draw(modo, r, g, b, grosor);
-glPopMatrix();
-};
-
-//************************************************************************
-// cabina
-//************************************************************************
-
-_cabina::_cabina()
-{
-ancho=0.4;
-alto=0.6;
-fondo=0.4;
-cubo.colors_chess(1.0,1.0,0.0,0.0,0.0,1.0);
-};
-
-void _cabina::draw(_modo modo, float r, float g, float b, float grosor)
-{
-glPushMatrix();
-glScalef(ancho, alto, fondo);
-cubo.draw(modo, r, g, b, grosor);
-glPopMatrix();
-};
-
-//************************************************************************
-// sustentación
-//************************************************************************
-
-_sustentacion::_sustentacion()
-{
-ancho=1.2;
-alto=0.3;
-fondo=0.8;
-radio=0.15;
-base.colors_chess(1.0,1.0,0.0,0.0,0.0,1.0);
-};
-
-void _sustentacion::draw(_modo modo, float r, float g, float b, float grosor)
-{
-glPushMatrix();
-glTranslatef(2*ancho/6,-alto/2.0,0);
-glRotatef(90,1,0,0);
-glScalef(radio, fondo/2.2, radio);
-rueda.draw(modo, r, g, b, grosor);
-glPopMatrix();
-
-glPushMatrix();
-glTranslatef(-2*ancho/6,-alto/2.0,0);
-glRotatef(90,1,0,0);
-glScalef(radio, fondo/2.2, radio);
-rueda.draw(modo, r, g, b, grosor);
-glPopMatrix();
-
-glPushMatrix();
-glScalef(ancho, alto, fondo);
-base.draw(modo, r, g, b, grosor);
-glPopMatrix();
-};
-
-//************************************************************************
-// excavadora (montaje del objeto final)
-//************************************************************************
-
-_excavadora::_excavadora()
-{
-giro_cabina = 0.0;
-giro_primer_brazo = 0.0;
-giro_primer_brazo_max = 0;
-giro_primer_brazo_min = -90;
-giro_segundo_brazo = 0.0;
-giro_segundo_brazo_max = 30;
-giro_segundo_brazo_min = 0;
-giro_pala = 0.0;
-giro_pala_max = 50.0;
-giro_pala_min = -90.0;
-
-tamanio_pala=0.15;
-};
-
-
-void _excavadora::draw(_modo modo, float r, float g, float b, float grosor)
-{
-glPushMatrix();
-
-sustentacion.draw(modo, r, g, b, grosor);
-
-glTranslatef(0,(cabina.alto+sustentacion.alto)/2.0,0);
-glRotatef(giro_cabina,0,1,0);
-cabina.draw(modo, r, g, b, grosor);
-
-glTranslatef(cabina.ancho/2.0,0,0);
-glRotatef(giro_segundo_brazo,0,0,1);
-brazo.draw(modo, r, g, b, grosor);
-
-glTranslatef(brazo.ancho,0,0);
-glRotatef(giro_primer_brazo,0,0,1);
-brazo.draw(modo, r, g, b, grosor);
-
-glTranslatef(brazo.ancho,0,0);
-glRotatef(giro_pala,0,0,1);
-glTranslatef(tamanio_pala,0,0);
-glScalef(tamanio_pala, tamanio_pala, tamanio_pala);
-pala.draw(modo, r, g, b, grosor);
-
-glPopMatrix();
-};
+colors_random();
+}
 

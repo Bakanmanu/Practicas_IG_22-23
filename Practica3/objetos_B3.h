@@ -169,100 +169,14 @@ public:
 //************************************************************************
 
 //************************************************************************
-// pala
+// Cilindro Elipse
 //************************************************************************
 
-class _pala: public _triangulos3D
-{
-public:
-      _pala(float radio=1.0, float ancho=2.0, int num=8);
+class _cilindroElipse: public _triangulos3D{
+	public:
+       _cilindroElipse(float ejeP=0.75, float ejeG=1.0, float altura=2.0, int num=10);
+
 };
 
-//************************************************************************
-// brazo
-//************************************************************************
 
-class _brazo: public _triangulos3D
-{
-public:
-      _brazo();
-void  draw(_modo modo, float r, float g, float b, float grosor);
 
-float ancho;
-float alto;
-float fondo;
-
-protected:
-_cubo cubo;
-};
-
-//************************************************************************
-// cabina
-//************************************************************************
-
-class _cabina: public _triangulos3D
-{
-public:
-       _cabina();
-void  draw(_modo modo, float r, float g, float b, float grosor);
-
-float ancho;
-float alto;
-float fondo;
-
-protected:
-_cubo cubo;
-};
-
-//************************************************************************
-// sustentación
-//************************************************************************
-
-class _sustentacion: public _triangulos3D
-{
-public:
-      _sustentacion();
-void  draw(_modo modo, float r, float g, float b, float grosor);
-       
-float ancho;
-float alto;
-float fondo;
-
-float radio;
-
-protected:
-_cilindro rueda;
-_cubo base;
-};
-
-//************************************************************************
-// excavadora (montaje del objeto final)
-//************************************************************************
-
-class _excavadora: public _triangulos3D
-{
-public:
-       _excavadora();
-       
-void  draw(_modo modo, float r, float g, float b, float grosor);
-
-float giro_cabina;
-float giro_primer_brazo;
-float giro_segundo_brazo;
-float giro_pala;
-
-float giro_primer_brazo_max;
-float giro_primer_brazo_min;
-float giro_segundo_brazo_max;
-float giro_segundo_brazo_min;
-float giro_pala_max;
-float giro_pala_min;
-
-float tamanio_pala;
-
-protected:
-_pala pala;
-_brazo brazo;
-_cabina cabina;
-_sustentacion sustentacion;
-};
