@@ -442,7 +442,7 @@ for (i=1;i<num1;i++)
    aux.z=0.0;
    perfil.push_back(aux);
   }
-parametros(perfil,num2,2,1,1);
+// parametros(perfil,num2,2,1,1);
 }
 
 

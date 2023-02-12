@@ -35,7 +35,7 @@ _objeto_ply  ply;
 _rotacion rotacion;
 _cilindro cilindro(1,2,6); 
 _cono cono(1,2,6);
-_esfera esfera(1,6,6);
+_esfera esfera(1,16,8);
 _excavadora excavadora;
 _extrusion *extrusion;
 _pala pala;
