@@ -6,3 +6,5 @@ practica2/*.o
 practica2/practica_objetos_B2
 Practica3/*.o
 Practica3/practica_objetos_B3
+Excavadora/*.o
+Excavadora/practica_objetos_B3
