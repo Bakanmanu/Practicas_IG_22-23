@@ -178,5 +178,12 @@ class _cilindroElipse: public _triangulos3D{
 
 };
 
+//************************************************************************
+// Esfera Elipse
+//************************************************************************
 
+class _esferaElipse: public _triangulos3D{
+       public:
+       _esferaElipse(float ejeP=0.75, float ejeG=1.0, int num1=6, int num2=6);
+};
 

@@ -593,31 +593,114 @@ _cilindroElipse::_cilindroElipse(float ejeP, float ejeG, float altura, int num){
     }
   }
 
-// tapa inferior
-int total=num_aux*num;
-vertices[total].x=0.0;
-vertices[total].y=perfil[0].y;
-vertices[total].z=0.0;
+  // tapa inferior
+  int total=num_aux*num;
+  vertices[total].x=0.0;
+  vertices[total].y=perfil[0].y;
+  vertices[total].z=0.0;
 
-for(i=0; i<num; i++){
-  caras[c]._0=i*num_aux;
-  caras[c]._1=((i+1)%num)*num_aux;
-  caras[c]._2=total;
-  c++;
+  for(i=0; i<num; i++){
+    caras[c]._0=i*num_aux;
+    caras[c]._1=((i+1)%num)*num_aux;
+    caras[c]._2=total;
+    c++;
+  }
+
+  // tapa superior
+  vertices[total+1].x=0.0;
+  vertices[total+1].y=perfil[num_aux-1].y;
+  vertices[total+1].z=0.0;
+
+  for(i=0; i<num; i++){
+    caras[c]._0=total+1;
+    caras[c]._1=((i+1)%num)*num_aux+num_aux-1;
+    caras[c]._2=num_aux-1+i*num_aux;
+    c++;
+  }
+
+  colors_random();
 }
+
+//************************************************************************
+// Cilindro Elipse
+//************************************************************************
+
+_esferaElipse::_esferaElipse(float ejeP, float ejeG, int num1, int num2){
+  vector<_vertex3f> perfil;
+  _vertex3f vertice_aux;
+  _vertex3i cara_aux;
+  float radio;
+  int num_aux, i, j;
+
+//tratamiento de vertices
+
+//Base de esfera eliptica
+  for(i=1; i<num1; i++){
+    vertice_aux.x=ejeP*cos(M_PI*i/(1.0*num1)-M_PI/2.0);
+    vertice_aux.y=ejeG*sin(M_PI*i/(1.0*num1)-M_PI/2.0);
+    vertice_aux.z=0.0;
+    perfil.push_back(vertice_aux);
+  }
+
+  radio=sqrt(perfil[0].x*perfil[0].x+perfil[0].y*perfil[0].y);
+// Relleno de vertices plantilla circular
+
+  num_aux=perfil.size();
+  vertices.resize(num_aux*num2+2);
+  for(j=0; j<num2; j++){
+    for(i=0; i<num_aux; i++){
+      vertice_aux.x=perfil[i].x*ejeG*cos(2.0*M_PI*j/(1.0*num2))+
+                    perfil[i].z*ejeP*sin(2.0*M_PI*j/(1.0*num2));
+      vertice_aux.z=-perfil[i].x*ejeP*sin(2.0*M_PI*j/(1.0*num2))+
+                    perfil[i].z*ejeG*cos(2.0*M_PI*j/(1.0*num2));
+      vertice_aux.y=perfil[i].y;
+      vertices[i+j*num_aux]=vertice_aux;
+    }
+  } 
+
+  //tratamiento de caras
+
+  caras.resize(2*(num_aux-1)*num2+2*num2);
+  int c=0;
+  for(j=0; j<num2; j++){
+    for(i=0; i<num_aux-1; i++){
+      caras[c]._0=i+j*num_aux;
+      caras[c]._1=((j+1)%num2)*num_aux+i;
+      caras[c]._2=1+i+j*num_aux;
+      c+=1;
+      caras[c]._0=((j+1)%num2)*num_aux+i;
+      caras[c]._1=((j+1)%num2)*num_aux+1+i;
+      caras[c]._2=1+i+j*num_aux;
+      c+=1;
+    }
+  }
+
+  // tapa inferior
+  int total=num_aux*num2;
+  vertices[total].x=0.0;
+  vertices[total].z=0.0;
+  vertices[total].y=-radio;
+
+  for (j=0;j<num2;j++){
+    caras[c]._0=j*num_aux;
+    caras[c]._1=((j+1)%num2)*num_aux;
+    caras[c]._2=total;
+    c+=1;
+  } 
+
 
 // tapa superior
-vertices[total+1].x=0.0;
-vertices[total+1].y=perfil[num_aux-1].y;
-vertices[total+1].z=0.0;
+  vertices[total+1].x=0.0;
+  vertices[total+1].z=0.0;
+  vertices[total+1].y=radio;
 
-for(i=0; i<num; i++){
-  caras[c]._0=total+1;
-  caras[c]._1=((i+1)%num)*num_aux+num_aux-1;
-  caras[c]._2=num_aux-1+i*num_aux;
-  c++;
-}
+  for (j=0;j<num2;j++){
+    caras[c]._0=total+1;
+    caras[c]._1=((j+1)%num2)*num_aux+num_aux-1;
+    caras[c]._2=num_aux-1+j*num_aux;
+    c+=1;
+  }
 
+// colores random de las caras
 colors_random();
 }
-

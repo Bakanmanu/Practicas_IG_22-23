@@ -12,7 +12,7 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSE} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSECIL, ELIPSEESF} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 
@@ -39,6 +39,7 @@ _esfera esfera(1,6,6);
 // _excavadora excavadora;
 _extrusion *extrusion;
 _cilindroElipse cilindroElipse(1.5, 2.0, 10.0, 20);
+_esferaElipse esferaElipse(1.5, 2.0, 10, 10);
 
 // _objeto_ply *ply;
 
@@ -127,8 +128,9 @@ switch (t_objeto){
         case ESFERA: esfera.draw(modo,1.0,0.0,0.0,5);break;
         // case EXCAVADORA: excavadora.draw(modo,1.0,0.0,0.0,5);break;
         case EXTRUSION: extrusion->draw(modo,1.0,0.0,0.0,5);break;
-        case ELIPSE: cilindroElipse.draw(modo,1.0,0.0,0.0,5);break;
-	}
+        case ELIPSECIL: cilindroElipse.draw(modo,1.0,0.0,0.0,5);break;
+	case ELIPSEESF: esferaElipse.draw(modo, 1.0,0.0,0.0,5);break;
+        }
 
 }
 
@@ -194,8 +196,9 @@ switch (toupper(Tecla1)){
         case 'E':t_objeto=ESFERA;break;
         // case 'A':t_objeto=EXCAVADORA;break;
         case 'X':t_objeto=EXTRUSION;break;
-        case 'T':t_objeto=ELIPSE;break;
-	}
+        case 'T':t_objeto=ELIPSECIL;break;
+	case 'Y':t_objeto=ELIPSEESF;break;
+        }
 glutPostRedisplay();
 }
 
