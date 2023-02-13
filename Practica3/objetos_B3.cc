@@ -622,7 +622,7 @@ _cilindroElipse::_cilindroElipse(float ejeP, float ejeG, float altura, int num){
 }
 
 //************************************************************************
-// Cilindro Elipse
+// Esfera Elipse
 //************************************************************************
 
 _esferaElipse::_esferaElipse(float ejeP, float ejeG, int num1, int num2){
@@ -704,3 +704,90 @@ _esferaElipse::_esferaElipse(float ejeP, float ejeG, int num1, int num2){
 // colores random de las caras
 colors_random();
 }
+
+
+
+//************************************************************************
+// Pata
+//************************************************************************
+
+_pata::_pata(){
+  ancho=0.0;
+  alto=0.0;
+  fondo=0.0;
+  radio = 0.15;
+
+};
+
+void _pata::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  // glTranslatef();
+  // glRotatef();
+  glScalef(radio, fondo, radio);
+  cilindro.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+};
+
+//************************************************************************
+// Pinza
+//************************************************************************
+_pinza::_pinza(){
+
+}
+
+//************************************************************************
+// Brazo
+//************************************************************************
+_brazo::_brazo(){
+
+}
+
+//************************************************************************
+// Aguijon
+//************************************************************************
+_aguijon::_aguijon(){
+
+}
+
+//************************************************************************
+// Cola
+//************************************************************************
+_cola::_cola(){
+
+}
+
+//************************************************************************
+// Cabeza
+//************************************************************************
+_cabeza::_cabeza(){
+
+}
+
+//************************************************************************
+// Escorpion
+//************************************************************************
+_escorpion::_escorpion(){
+  ancho=0.8;
+  alto=2.0;
+  fondo=1.0;
+}
+
+void _escorpion::draw(_modo modo, float r, float g, float b, float grosor){
+  // ***** CUERPO *****
+  glPushMatrix();
+  // glTranslatef();
+  glRotatef(90,1,0,0);
+  // glScalef(ancho, alto, fondo);
+  cuerpo.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+
+// ***** PATAS *****
+  glPushMatrix();
+  glTranslatef(2*ancho/4, -alto/2.0, 0);
+  // glRotatef();
+  glScalef(ancho/10.0, alto/2, fondo/10);
+  pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+
+
+};

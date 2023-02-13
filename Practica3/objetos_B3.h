@@ -123,7 +123,7 @@ public:
 class _cono: public _rotacion
 {
 public:
-       _cono(float radio, float altura, int num);
+       _cono(float radio=1.0, float altura=2.0, int num=12);
 };
 
 //************************************************************************
@@ -133,7 +133,7 @@ public:
 class _esfera: public _rotacion
 {
 public:
-       _esfera(float radio, int num1, int num2);
+       _esfera(float radio=1.0, int num1=12, int num2=12);
 };
 
 
@@ -174,7 +174,7 @@ public:
 
 class _cilindroElipse: public _triangulos3D{
 	public:
-       _cilindroElipse(float ejeP=0.75, float ejeG=1.0, float altura=2.0, int num=10);
+       _cilindroElipse(float ejeP=0.6, float ejeG=1.0, float altura=2.0, int num=16);
 
 };
 
@@ -187,3 +187,125 @@ class _esferaElipse: public _triangulos3D{
        _esferaElipse(float ejeP=0.75, float ejeG=1.0, int num1=6, int num2=6);
 };
 
+
+//************************************************************************
+// Pata
+//************************************************************************
+class _pata: public _triangulos3D{
+       public:
+              _pata();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+       float radio;
+
+       protected:    
+              _cubo cubo;
+              _cilindro cilindro;
+};
+
+
+//************************************************************************
+// Pinza
+//************************************************************************
+class _pinza: public _triangulos3D{
+       public:
+              _pinza();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+       
+       protected:
+              _cubo cubo;
+              _esferaElipse elipse3d;
+};
+
+//************************************************************************
+// Brazo
+//************************************************************************
+class _brazo: public _triangulos3D{
+       public:
+              _brazo();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+              
+       protected:
+              _cilindro cilindro;
+              _pinza pinza;
+
+};
+
+//************************************************************************
+// Aguijon
+//************************************************************************
+class _aguijon: public _triangulos3D{
+       public:
+              _aguijon();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+       
+       protected:
+              _esfera esfera;
+              _cono cono;
+};
+
+//************************************************************************
+// Cola
+//************************************************************************
+class _cola: public _triangulos3D{
+       public:
+              _cola();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+       
+       protected:
+              _cono cono;
+              _cilindro cilindro;
+              _aguijon aguijon;
+};
+
+//************************************************************************
+// Cabeza
+//************************************************************************
+class _cabeza: public _triangulos3D{
+       public:
+              _cabeza();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+
+       protected:
+       _esfera esfera;
+       _esferaElipse elipse3d;
+};
+
+//************************************************************************
+// Escorpion (montaje del objeto final)
+//************************************************************************
+class _escorpion: public _triangulos3D{
+       public:
+              _escorpion();
+              void draw(_modo modo, float r, float g, float b, float grosor);
+       float ancho;
+       float alto;
+       float fondo;
+
+       /*Insertar valores de animaciones */
+
+
+       protected:
+              _cilindroElipse cuerpo;
+              _cola cola;
+              _cabeza cabeza;
+              _pata pata;
+              _brazo brazo;
+};
