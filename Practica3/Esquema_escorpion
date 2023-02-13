@@ -15,25 +15,28 @@ orden de acciones:
 	
 	
 	
-Cuerpo:
-	Cilindro Eliptico
+Escorpion:
+	Cilindro Eliptico, 2 brazos, 6 patas, 1 cola y 1 cabeza;
 	
 Cabeza:
-	Elipse 3d esfera alargada
+	Elipse 3d , 4/6 esferas como ojos
 
 Aguijon:
 	esfera y un cono
 
 Cola:
-	Cilindro curvo o varios cilindros juntos
-	
+	Cono, 3 cilindros y 1 aguijon
+
 pinzas:
-	Elipse 3d y cono
+	Elipse 3d y 2 cubos
 
 Patas: 
-	2/3 cilindros y un cubo alargado como base
-	
+	2 cilindros y un cubo alargado como base
+
 brazo:
-	2 cilindros 
+	2 cilindros y 1 pinza
 	
 	
+EJE X -> ROJO
+EJE Z -> AZUL
+EJE Y -> VERDE
