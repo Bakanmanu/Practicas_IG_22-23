@@ -712,30 +712,37 @@ colors_random();
 //************************************************************************
 
 _pata::_pata(){
-  ancho=1.0;
-  alto=0.3;
+  ancho=0.2;
+  alto=0.1;
   fondo=0.6;
   radio = 0.1;
 
 };
 
 void _pata::draw(_modo modo, float r, float g, float b, float grosor){
-  // Parte superior
+  // Muslo
   glPushMatrix();
-    glTranslatef(0,(fondo/2.0)*sin(115.0),-fondo);
+    glTranslatef(0,0.27,-0.55);
     glRotatef(115,1,0,0);
     glScalef(radio, fondo, radio);
-    cilindro.draw(modo, r, g, b, grosor);
+    cilindro.draw(modo,r,g,b,grosor);
   glPopMatrix();
 
-  // Parte intermedia
-  // glPushMatrix();
-  //   glTranslatef(0,(fondo/2.0)*sin(115.0),-fondo);
-  //   glRotatef(115,1,0,0);
-  //   glScalef(radio, fondo, radio);
-  //   cilindro.draw(modo, r, g, b, grosor);
-  // glPopMatrix();
+  // Espinilla
+  glPushMatrix();
+    glTranslatef(0,0,-1.25);
+    glRotatef(25,1,0,0);
+    glScalef(radio, fondo, radio);
+    cilindro.draw(modo,r,g,b,grosor);
+  glPopMatrix();
 
+  // pie
+  glPushMatrix();
+    glTranslatef(0,-0.55,-1.575);
+    // glRotatef(25,1,0,0);
+    glScalef(ancho, alto, 2*ancho);
+    cubo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
 
 
 };
