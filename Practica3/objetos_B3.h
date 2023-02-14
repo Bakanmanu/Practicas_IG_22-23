@@ -184,7 +184,7 @@ class _cilindroElipse: public _triangulos3D{
 
 class _esferaElipse: public _triangulos3D{
        public:
-       _esferaElipse(float ejeP=0.75, float ejeG=1.0, int num1=6, int num2=6);
+       _esferaElipse(float ejeP=0.75, float ejeG=1.0, int num1=16, int num2=16);
 };
 
 
@@ -211,15 +211,17 @@ class _pata: public _triangulos3D{
 //************************************************************************
 class _pinza: public _triangulos3D{
        public:
+              float ancho;
+              float alto;
+              float fondo;
+              
               _pinza();
               void draw(_modo modo, float r, float g, float b, float grosor);
-       float ancho;
-       float alto;
-       float fondo;
        
        protected:
-              _cubo cubo;
               _esferaElipse elipse3d;
+              _cilindro cilindro;
+              _cono cono;
 };
 
 //************************************************************************
@@ -227,12 +229,13 @@ class _pinza: public _triangulos3D{
 //************************************************************************
 class _brazo: public _triangulos3D{
        public:
+              float ancho;
+              float alto;
+              float fondo;
+              
               _brazo();
               void draw(_modo modo, float r, float g, float b, float grosor);
-       float ancho;
-       float alto;
-       float fondo;
-              
+
        protected:
               _cilindro cilindro;
               _pinza pinza;

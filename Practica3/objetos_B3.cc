@@ -751,13 +751,67 @@ void _pata::draw(_modo modo, float r, float g, float b, float grosor){
 // Pinza
 //************************************************************************
 _pinza::_pinza(){
+  ancho=0.35;
+  alto=0.3;
+  fondo=0.3;
+  cilindro = _cilindro(1.0,2.0,3);
+  cono = _cono(1.0,2.0,3);
 
 }
+
+
+void _pinza::draw(_modo modo, float r, float g, float b, float grosor){
+  // Base de la pinza
+  glPushMatrix();
+    glRotatef(90,1,0,0);
+    glScalef(ancho*2, alto*2, fondo*2);
+    elipse3d.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  // Pinza1
+  glPushMatrix();
+    glTranslatef(-fondo,0,0.7);
+    glRotatef(90,1,0,0);
+    glScalef(fondo/2.0, alto, fondo/2.0);
+    cilindro.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-fondo,0,0.95);
+    glRotatef(90,1,0,0);
+    glRotatef(-30,0,0,1);
+    glScalef(fondo/2.0, alto, fondo/2.0);
+    cono.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+  
+  // Pinza2
+  glPushMatrix();
+    glTranslatef(fondo,0,0.7);
+    glRotatef(90,1,0,0);
+    glRotatef(180,0,0,1);
+    glScalef(fondo/2.0, alto, fondo/2.0);
+    cilindro.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+  
+  glPushMatrix();
+    glTranslatef(fondo,0,0.95);
+    glRotatef(90,1,0,0);
+    glRotatef(180,0,1,0);
+    glRotatef(-30,0,0,1);
+    glScalef(fondo/2.0, alto, fondo/2.0);
+    cono.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
 
 //************************************************************************
 // Brazo
 //************************************************************************
 _brazo::_brazo(){
+
+}
+
+void _brazo::draw(_modo modo, float r, float g, float b, float grosor){
 
 }
 
@@ -768,6 +822,9 @@ _aguijon::_aguijon(){
 
 }
 
+void _aguijon::draw(_modo modo, float r, float g, float b, float grosor){
+
+}
 //************************************************************************
 // Cola
 //************************************************************************
@@ -775,12 +832,21 @@ _cola::_cola(){
 
 }
 
+void _cola::draw(_modo modo, float r, float g, float b, float grosor){
+
+}
+
+
 //************************************************************************
 // Cabeza
 //************************************************************************
 _cabeza::_cabeza(){
 
 }
+
+void _cabeza::draw(_modo modo, float r, float g, float b, float grosor){
+}
+
 
 //************************************************************************
 // Escorpion

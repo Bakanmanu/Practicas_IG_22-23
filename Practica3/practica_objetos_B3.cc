@@ -13,8 +13,8 @@ using namespace std;
 
 // tipos
 typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSECIL, ELIPSEESF, ESCORPION} _tipo_objeto;
-_tipo_objeto t_objeto=CUBO;
-_modo   modo=POINTS;
+_tipo_objeto t_objeto=ESCORPION;
+_modo   modo=EDGES;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_distance;
@@ -43,10 +43,10 @@ _extrusion *extrusion;
 // ***** P3 ******
 
 _cilindroElipse cilindroElipse(1.5, 2.0, 10.0, 20);
-_esferaElipse esferaElipse(1.5, 2.0, 10, 10);
+_esferaElipse esferaElipse;
 
 
-_pata pata;
+_pinza prueba;
 // _escorpion escorpion;
 
 //**************************************************************************
@@ -135,7 +135,7 @@ switch (t_objeto){
         case EXTRUSION: extrusion->draw(modo,1.0,0.0,0.0,5);break;
         case ELIPSECIL: cilindroElipse.draw(modo,1.0,0.0,0.0,5);break;
 	case ELIPSEESF: esferaElipse.draw(modo, 1.0,0.0,0.0,5);break;
-        case ESCORPION: pata.draw(modo, 1.0, 0.0, 0.0, 5);break;
+        case ESCORPION: prueba.draw(modo, 1.0, 0.0, 0.0, 5);break;
         }
 
 }
