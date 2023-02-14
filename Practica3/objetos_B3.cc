@@ -712,20 +712,32 @@ colors_random();
 //************************************************************************
 
 _pata::_pata(){
-  ancho=0.0;
-  alto=0.0;
-  fondo=0.0;
-  radio = 0.15;
+  ancho=1.0;
+  alto=0.3;
+  fondo=0.6;
+  radio = 0.1;
 
 };
 
 void _pata::draw(_modo modo, float r, float g, float b, float grosor){
+  // Parte superior
   glPushMatrix();
-  // glTranslatef();
-  // glRotatef();
-  glScalef(radio, fondo, radio);
-  cilindro.draw(modo, r, g, b, grosor);
+    glTranslatef(0,(fondo/2.0)*sin(115.0),-fondo);
+    glRotatef(115,1,0,0);
+    glScalef(radio, fondo, radio);
+    cilindro.draw(modo, r, g, b, grosor);
   glPopMatrix();
+
+  // Parte intermedia
+  // glPushMatrix();
+  //   glTranslatef(0,(fondo/2.0)*sin(115.0),-fondo);
+  //   glRotatef(115,1,0,0);
+  //   glScalef(radio, fondo, radio);
+  //   cilindro.draw(modo, r, g, b, grosor);
+  // glPopMatrix();
+
+
+
 };
 
 //************************************************************************
