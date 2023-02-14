@@ -46,7 +46,7 @@ _cilindroElipse cilindroElipse(1.5, 2.0, 10.0, 20);
 _esferaElipse esferaElipse;
 
 
-_pinza prueba;
+_brazo prueba;
 // _escorpion escorpion;
 
 //**************************************************************************

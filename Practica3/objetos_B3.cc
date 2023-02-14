@@ -770,14 +770,14 @@ void _pinza::draw(_modo modo, float r, float g, float b, float grosor){
 
   // Pinza1
   glPushMatrix();
-    glTranslatef(-fondo,0,0.7);
+    glTranslatef(-fondo-0.05,0,0.55);
     glRotatef(90,1,0,0);
     glScalef(fondo/2.0, alto, fondo/2.0);
     cilindro.draw(modo,r,g,b,grosor);
   glPopMatrix();
 
   glPushMatrix();
-    glTranslatef(-fondo,0,0.95);
+    glTranslatef(-fondo-0.05,0,0.8);
     glRotatef(90,1,0,0);
     glRotatef(-30,0,0,1);
     glScalef(fondo/2.0, alto, fondo/2.0);
@@ -786,7 +786,7 @@ void _pinza::draw(_modo modo, float r, float g, float b, float grosor){
   
   // Pinza2
   glPushMatrix();
-    glTranslatef(fondo,0,0.7);
+    glTranslatef(fondo+0.05,0,0.55);
     glRotatef(90,1,0,0);
     glRotatef(180,0,0,1);
     glScalef(fondo/2.0, alto, fondo/2.0);
@@ -794,7 +794,7 @@ void _pinza::draw(_modo modo, float r, float g, float b, float grosor){
   glPopMatrix();
   
   glPushMatrix();
-    glTranslatef(fondo,0,0.95);
+    glTranslatef(fondo+0.05,0,0.8);
     glRotatef(90,1,0,0);
     glRotatef(180,0,1,0);
     glRotatef(-30,0,0,1);
@@ -808,11 +808,34 @@ void _pinza::draw(_modo modo, float r, float g, float b, float grosor){
 // Brazo
 //************************************************************************
 _brazo::_brazo(){
+  ancho=0.3;
+  alto=0.6;
+  fondo=0.25;
 
 }
 
 void _brazo::draw(_modo modo, float r, float g, float b, float grosor){
-
+  // Brazo 1
+  glPushMatrix();
+    glScalef(ancho, alto, fondo);
+    cilindro.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+  
+  // Brazo 2
+  glPushMatrix();
+    glTranslatef(-0.15,alto*1.5,0);
+    glRotatef(20,0,0,1);
+    glScalef(ancho, alto*3/4, fondo);
+    cilindro.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+  
+  // Pinza
+  glPushMatrix();
+    glTranslatef(-0.45,1.7,0);
+    glRotatef(-90,1,0,0);
+    glRotatef(-20,0,1,0);
+    pinza.draw(modo,r,g,b,grosor);
+  glPopMatrix();
 }
 
 //************************************************************************
