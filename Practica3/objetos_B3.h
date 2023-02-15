@@ -169,12 +169,22 @@ public:
 //************************************************************************
 
 //************************************************************************
+// Tronco de Cono
+//************************************************************************
+
+class _troncoCono: public _rotacion{
+       public:
+              _troncoCono(float radio1=1.5, float radio2=1.0, float altura=2.0, int num=16);
+};
+
+
+//************************************************************************
 // Cilindro Elipse
 //************************************************************************
 
 class _cilindroElipse: public _triangulos3D{
 	public:
-       _cilindroElipse(float ejeP=0.6, float ejeG=1.0, float altura=2.0, int num=16);
+       _cilindroElipse(float ejeP=0.6, float ejeG=1.0, float altura=3.0, int num=16);
 
 };
 
@@ -268,28 +278,14 @@ class _cola: public _triangulos3D{
        float ancho;
        float alto;
        float fondo;
+       vector<_vertex3f> perfil;
        
        protected:
-              _cono cono;
+              _troncoCono tronco;
               _cilindro cilindro;
               _aguijon aguijon;
 };
 
-//************************************************************************
-// Cabeza
-//************************************************************************
-class _cabeza: public _triangulos3D{
-       public:
-              _cabeza();
-              void draw(_modo modo, float r, float g, float b, float grosor);
-       float ancho;
-       float alto;
-       float fondo;
-
-       protected:
-       _esfera esfera;
-       _esferaElipse elipse3d;
-};
 
 //************************************************************************
 // Escorpion (montaje del objeto final)
@@ -303,12 +299,25 @@ class _escorpion: public _triangulos3D{
        float fondo;
 
        /*Insertar valores de animaciones */
+       float  giro_brazo1, 
+              giro_cola,
+              giro_patas;
 
+       float giro_brazo_max;
+       float giro_brazo_min;
+       float giro_cola_max;
+       float giro_cola_min;
+       float giro_patas_max;
+       float giro_patas_min;
 
        protected:
+              _cilindro cilindro;
+              _esfera esfera;
+              _esferaElipse elipse3d;
               _cilindroElipse cuerpo;
-              _cola cola;
-              _cabeza cabeza;
+              _troncoCono tronco;
+              _aguijon aguijon;
               _pata pata;
               _brazo brazo;
+              // _cola cola;
 };

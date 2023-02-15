@@ -544,6 +544,25 @@ colors_random();
 // piezas
 //************************************************************************
 
+
+//************************************************************************
+// Tronco de Cono
+//************************************************************************
+
+_troncoCono::_troncoCono(float radio1, float radio2, float altura, int num){
+  vector<_vertex3f> perfil;
+  _vertex3f aux;
+
+  aux.x=radio1; aux.y=0.0; aux.z=0.0;
+  perfil.push_back(aux);
+  aux.x=radio2; aux.y=altura; aux.z=0.0;
+  perfil.push_back(aux);
+
+  parametros(perfil,num,0,1,1); 
+}
+
+
+
 //************************************************************************
 // Cilindro Elipse
 //************************************************************************
@@ -842,60 +861,180 @@ void _brazo::draw(_modo modo, float r, float g, float b, float grosor){
 // Aguijon
 //************************************************************************
 _aguijon::_aguijon(){
+  ancho=1.0;
+  alto=1.0;
+  fondo=0.5;
 
 }
 
 void _aguijon::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+    glScalef(ancho, alto, ancho*1.3);
+    esfera.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(0,0.85,0);
+    glScalef(fondo, alto/2, fondo*1.3);
+    cono.draw(modo,r,g,b,grosor);
+  glPopMatrix();
 
 }
+
 //************************************************************************
 // Cola
 //************************************************************************
 _cola::_cola(){
+  ancho=1.0;
+  alto=1.0;
+  fondo=0.5;
 
 }
 
 void _cola::draw(_modo modo, float r, float g, float b, float grosor){
+  // base de la cola (conecta con el cuerpo)
+  glPushMatrix();
+    // glTranslatef(0,0,0);
+    glRotatef(45,1,0,0);
+    glScalef(1,1.25,0.75);
+    tronco.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+// Eslabones de la cola
+  glPushMatrix();
+
+  glPopMatrix();
+
+
+
+// Aguijon
+  glPushMatrix();
+
+  glPopMatrix();
 
 }
 
-
-//************************************************************************
-// Cabeza
-//************************************************************************
-_cabeza::_cabeza(){
-
-}
-
-void _cabeza::draw(_modo modo, float r, float g, float b, float grosor){
-}
 
 
 //************************************************************************
 // Escorpion
 //************************************************************************
 _escorpion::_escorpion(){
-  ancho=0.8;
+  ancho=1.0;
   alto=2.0;
-  fondo=1.0;
+  fondo=0.8;
+
+  giro_brazo1 = 15.0;
+  giro_cola = 45.0;
+  giro_patas = 20.0;
+
+
+  giro_brazo_max=45.0;
+  giro_brazo_min=15.0;
+  giro_cola_max=45.0;
+  giro_cola_min=0.0;
+  giro_patas_max=45.0;
+  giro_patas_min=0.0;
+
 }
 
 void _escorpion::draw(_modo modo, float r, float g, float b, float grosor){
-  // ***** CUERPO *****
   glPushMatrix();
-  // glTranslatef();
-  glRotatef(90,1,0,0);
-  // glScalef(ancho, alto, fondo);
-  cuerpo.draw(modo, r, g, b, grosor);
+  // ***** CUERPO ***** //
+    glRotatef(90,1,0,0);
+    glScalef(ancho, alto, fondo);
+    cuerpo.draw(modo, r, g, b, grosor);
   glPopMatrix();
 
-// ***** PATAS *****
+  // ***** CABEZA ***** //
   glPushMatrix();
-  glTranslatef(2*ancho/4, -alto/2.0, 0);
-  // glRotatef();
-  glScalef(ancho/10.0, alto/2, fondo/10);
-  pata.draw(modo, r, g, b, grosor);
+    glTranslatef(0,0,3);
+    glRotatef(90,0,0,1);
+    glRotatef(90,0,1,0);
+    glScalef(ancho, 1, fondo);
+    elipse3d.draw(modo,r,g,b,grosor);
+  glPopMatrix();    
+  
+
+  // ***** BRAZOS ***** //
+  // izq
+  glPushMatrix();
+    glTranslatef(1,0,3);
+    glRotatef(90,1,0,0);
+    glRotatef(-giro_brazo1,0,0,1);
+    glScalef(0.6,0.6,0.6);
+    brazo.draw(modo,r,g,b,grosor);
   glPopMatrix();
+
+  //der
+  glPushMatrix();
+    glTranslatef(-1,0,3);
+    glRotatef(90,1,0,0);
+    glRotatef(180,0,1,0);
+    glRotatef(-giro_brazo1,0,0,1);
+    glScalef(0.6,0.6,0.6);
+    brazo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+
+
+
+  // ***** PATAS ***** //
+  // Lado Izq
+  glPushMatrix();
+    glTranslatef(ancho*3.0/4.0, 0, -1.5);
+    glRotatef(-90,0,1,0);
+    // glRotatef(-90,1,0,0);
+    // glScalef(1, 1, 1);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+
+  glPushMatrix();  
+    glTranslatef(ancho*3.0/4.0, 0, 0);
+    glRotatef(-90,0,1,0);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+  
+  glPushMatrix();
+    glTranslatef(ancho*3.0/4.0, 0, 1.5);
+    glRotatef(-90,0,1,0);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+  
+  // Lado Der
+  glPushMatrix();
+    glTranslatef(-ancho*3.0/4.0, 0, -1.5);
+    glRotatef(90,0,1,0);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+
+  glPushMatrix();  
+    glTranslatef(-ancho*3.0/4.0, 0, 0);
+    glRotatef(90,0,1,0);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+  
+  glPushMatrix();
+    glTranslatef(-ancho*3.0/4.0, 0, 1.5);
+    glRotatef(90,0,1,0);
+    glRotatef(giro_patas,0,1,0);
+    pata.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+  
+
+  // ***** COLA ***** //
+  glPushMatrix();
+
+  
+  
+  glPopMatrix();
+
+
 
 
 };

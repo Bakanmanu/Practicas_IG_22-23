@@ -12,8 +12,8 @@
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSECIL, ELIPSEESF, ESCORPION} _tipo_objeto;
-_tipo_objeto t_objeto=ESCORPION;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, CILINDRO, CONO, ESFERA, EXTRUSION, ELIPSECIL, ELIPSEESF, ESCORPION, TRONCO} _tipo_objeto;
+_tipo_objeto t_objeto=CUBO;
 _modo   modo=EDGES;
 
 // variables que definen la posicion de la camara en coordenadas polares
@@ -39,6 +39,7 @@ _esfera esfera(1,6,6);
 // _excavadora excavadora;
 _extrusion *extrusion;
 // _objeto_ply *ply;
+_brazo tronco;
 
 // ***** P3 ******
 
@@ -46,7 +47,7 @@ _cilindroElipse cilindroElipse(1.5, 2.0, 10.0, 20);
 _esferaElipse esferaElipse;
 
 
-_brazo prueba;
+_escorpion prueba;
 // _escorpion escorpion;
 
 //**************************************************************************
@@ -136,6 +137,7 @@ switch (t_objeto){
         case ELIPSECIL: cilindroElipse.draw(modo,1.0,0.0,0.0,5);break;
 	case ELIPSEESF: esferaElipse.draw(modo, 1.0,0.0,0.0,5);break;
         case ESCORPION: prueba.draw(modo, 1.0, 0.0, 0.0, 5);break;
+        case TRONCO: tronco.draw(modo, 1.0, 0.0, 0.0, 5);break;
         }
 
 }
@@ -205,6 +207,7 @@ switch (toupper(Tecla1)){
         case 'T':t_objeto=ELIPSECIL;break;
 	case 'Y':t_objeto=ELIPSEESF;break;
         case 'A':t_objeto=ESCORPION;break;
+        case 'Z':t_objeto=TRONCO;break;
         }
 glutPostRedisplay();
 }
